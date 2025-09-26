@@ -120,10 +120,11 @@
       sendStatus.textContent="Guardando registro...";
 
       const formData=new FormData();
-      formData.append("nombre", student.name);
-      formData.append("curso", student.course);
-      formData.append("nota", `${score}/${QUESTIONS.length}`);
-      formData.append("respuestas", JSON.stringify(answers));
+      formData.append("name", student.name);
+      formData.append("course", student.course);
+      formData.append("score", score);
+      formData.append("total", QUESTIONS.length);
+      formData.append("answers", JSON.stringify(answers));
 
       try{
         const resp=await fetch(APPS_SCRIPT_URL, {method:"POST", body:formData});
