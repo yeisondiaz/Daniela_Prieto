@@ -106,26 +106,20 @@
     }
 
     submitQuiz.addEventListener("click", async ()=>{
-      if(!student.name || !student.course){ alert("Falta registro de nombre/curso"); return; }
-      const answered=answers.filter(a=>a!==null).length;
-      if(answered<QUESTIONS.length){
-        if(!confirm(`Solo has contestado ${answered} de ${QUESTIONS.length}. ¿Enviar igualmente?`)) return;
-      }
-
       const score=computeScore();
       quizCard.classList.add("hidden");
       resultCard.classList.remove("hidden");
       finalScore.textContent=`Tu nota: ${score} / ${QUESTIONS.length}`;
       finalMessage.textContent = score>=7? "¡Excelente!" : (score>=4? "Buen intento" : "Sigue practicando");
       sendStatus.textContent="Guardando registro...";
-
+    
       const formData=new FormData();
       formData.append("name", student.name);
       formData.append("course", student.course);
       formData.append("score", score);
       formData.append("total", QUESTIONS.length);
       formData.append("answers", JSON.stringify(answers));
-
+    
       try{
         const resp=await fetch(APPS_SCRIPT_URL, {method:"POST", body:formData});
         if(resp.ok){
@@ -134,7 +128,7 @@
           sendStatus.textContent="Error al guardar en el servidor ❌";
         }
       }catch(err){
-        sendStatus.innerHTML="No se pudo enviar (CORS o red).<br>Revisa que el Apps Script esté desplegado como 'Anyone, even anonymous' y la URL sea la correcta.";
+        sendStatus.innerHTML="No se pudo enviar. Revisa el Apps Script.";
         console.error(err);
       }
     });
