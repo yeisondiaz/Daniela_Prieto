@@ -25,17 +25,53 @@
       <button id="startQuiz" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-blue-700">Comenzar</button>
     </div>
 
-    <!-- Material de estudio -->
-    <div id="studyCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4">
-      <h2 class="text-2xl font-bold text-center text-green-700">📚 Material de Estudio</h2>
-      <ul class="text-gray-700 list-disc pl-6 space-y-1">
-        <li><strong>Primavera:</strong> Florecen las plantas, temperaturas templadas.</li>
-        <li><strong>Verano:</strong> Días largos y calurosos, ropa ligera.</li>
-        <li><strong>Otoño:</strong> Caen las hojas, clima se enfría.</li>
-        <li><strong>Invierno:</strong> Temperaturas frías, nieve, Navidad.</li>
-      </ul>
-      <button id="goToQuiz" class="w-full bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-green-700">Ir al examen</button>
+   <!-- Material de estudio -->
+<div id="studyCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-6">
+  <h2 class="text-2xl font-bold text-center text-green-700">📚 Material de Estudio</h2>
+
+  <!-- Grid de cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Primavera -->
+    <div class="bg-green-50 rounded-xl shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+      <img src="https://source.unsplash.com/600x200/?spring,flowers" alt="Primavera" class="rounded-t-xl">
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-green-700 mb-1">🌸 Primavera</h3>
+        <p class="text-gray-700 text-sm">Florecen las plantas y las temperaturas son templadas.</p>
+      </div>
     </div>
+
+    <!-- Verano -->
+    <div class="bg-yellow-50 rounded-xl shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+      <img src="https://source.unsplash.com/600x200/?summer,beach" alt="Verano" class="rounded-t-xl">
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-yellow-700 mb-1">☀️ Verano</h3>
+        <p class="text-gray-700 text-sm">Días largos y calurosos, ropa ligera.</p>
+      </div>
+    </div>
+
+    <!-- Otoño -->
+    <div class="bg-orange-50 rounded-xl shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+      <img src="https://source.unsplash.com/600x200/?autumn,leaves" alt="Otoño" class="rounded-t-xl">
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-orange-700 mb-1">🍂 Otoño</h3>
+        <p class="text-gray-700 text-sm">Caen las hojas y el clima se enfría.</p>
+      </div>
+    </div>
+
+    <!-- Invierno -->
+    <div class="bg-blue-50 rounded-xl shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+      <img src="https://source.unsplash.com/600x200/?winter,snow" alt="Invierno" class="rounded-t-xl">
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-blue-700 mb-1">❄️ Invierno</h3>
+        <p class="text-gray-700 text-sm">Temperaturas frías, nieve y Navidad.</p>
+      </div>
+    </div>
+  </div>
+
+  <button id="goToQuiz" class="w-full bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-green-700">
+    Ir al examen
+  </button>
+</div>
 
     <!-- Preguntas -->
     <div id="quizCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4">
