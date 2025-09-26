@@ -4,56 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Las Estaciones del Año!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {animation: fadeIn 0.5s ease-in-out;}
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-r from-blue-200 to-green-200 min-h-screen flex items-center justify-center p-4">
-<script src="https://cdn.tailwindcss.com"></script>
+<body class="bg-gradient-to-r from-blue-300 via-green-200 to-yellow-200 min-h-screen flex items-center justify-center p-4 font-sans">
+
   <div class="w-full max-w-2xl">
     <!-- Bienvenida -->
-    <div id="welcomeCard" class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <h1 class="text-2xl font-bold text-center text-blue-700">🌎 ¡Bienvenido al Quiz de las Estaciones!</h1>
+    <div id="welcomeCard" class="fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4">
+      <h1 class="text-3xl font-extrabold text-center text-blue-700">🌎 ¡Bienvenido al Quiz de las Estaciones!</h1>
       <p class="text-gray-600 text-center">Ingresa tus datos para comenzar.</p>
-      <input id="studentName" type="text" placeholder="Tu nombre" class="w-full border rounded p-2">
-      <input id="studentCourse" type="text" placeholder="Tu curso" class="w-full border rounded p-2">
-      <button id="startQuiz" class="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700">Comenzar</button>
+      <input id="studentName" type="text" placeholder="✏️ Tu nombre" class="w-full border rounded-xl p-3 focus:outline-none focus:ring focus:ring-blue-200">
+      <input id="studentCourse" type="text" placeholder="🏫 Tu curso" class="w-full border rounded-xl p-3 focus:outline-none focus:ring focus:ring-blue-200">
+      <button id="startQuiz" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-blue-700">Comenzar</button>
     </div>
 
     <!-- Material de estudio -->
-    <div id="studyCard" class="hidden bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <h2 class="text-xl font-bold text-center text-green-700">📚 Material de Estudio: Las Estaciones del Año</h2>
-      <p class="text-gray-700">
-        - <strong>Primavera:</strong> Florecen las plantas, hay temperaturas templadas y lluvias frecuentes.<br>
-        - <strong>Verano:</strong> Días largos y calurosos, usamos ropa ligera y disfrutamos del sol.<br>
-        - <strong>Otoño:</strong> Caen las hojas de los árboles y el clima se enfría.<br>
-        - <strong>Invierno:</strong> Temperaturas frías, nieve en algunos lugares y celebramos la Navidad.
-      </p>
-      <button id="goToQuiz" class="w-full bg-green-600 text-white rounded p-2 hover:bg-green-700">Ir al examen</button>
+    <div id="studyCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4">
+      <h2 class="text-2xl font-bold text-center text-green-700">📚 Material de Estudio</h2>
+      <ul class="text-gray-700 list-disc pl-6 space-y-1">
+        <li><strong>Primavera:</strong> Florecen las plantas, temperaturas templadas.</li>
+        <li><strong>Verano:</strong> Días largos y calurosos, ropa ligera.</li>
+        <li><strong>Otoño:</strong> Caen las hojas, clima se enfría.</li>
+        <li><strong>Invierno:</strong> Temperaturas frías, nieve, Navidad.</li>
+      </ul>
+      <button id="goToQuiz" class="w-full bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-green-700">Ir al examen</button>
     </div>
 
     <!-- Preguntas -->
-    <div id="quizCard" class="hidden bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <h2 id="questionTitle" class="text-lg font-semibold text-gray-800"></h2>
+    <div id="quizCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 id="questionTitle" class="text-lg font-semibold text-gray-800"></h2>
+        <span id="progress" class="text-sm text-gray-500"></span>
+      </div>
       <div id="options" class="space-y-2"></div>
       <div class="flex justify-between">
-        <button id="prevBtn" class="bg-gray-400 text-white rounded p-2">Anterior</button>
-        <button id="nextBtn" class="bg-gray-600 text-white rounded p-2">Siguiente</button>
+        <button id="prevBtn" class="bg-gray-400 text-white rounded-xl p-2 px-4 hover:shadow-lg">⬅️ Anterior</button>
+        <button id="nextBtn" class="bg-gray-600 text-white rounded-xl p-2 px-4 hover:shadow-lg">Siguiente ➡️</button>
       </div>
-      <button id="submitQuiz" class="hidden w-full bg-green-600 text-white rounded p-2 hover:bg-green-700">Enviar respuestas</button>
+      <button id="submitQuiz" class="hidden w-full bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-green-700">Enviar respuestas</button>
     </div>
 
     <!-- Resultados -->
-    <div id="resultCard" class="hidden bg-white rounded-2xl shadow-lg p-6 space-y-4 text-center">
-      <h2 class="text-xl font-bold text-gray-800">📊 Resultados</h2>
+    <div id="resultCard" class="hidden fade-in bg-white rounded-2xl shadow-2xl p-6 space-y-4 text-center">
+      <h2 class="text-2xl font-bold text-gray-800">📊 Resultados</h2>
       <p id="finalScore" class="text-lg"></p>
       <p id="finalMessage" class="text-gray-700"></p>
       <p id="sendStatus" class="text-sm text-gray-500"></p>
-      <button id="newExam" class="mt-4 w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700">Nuevo examen</button>
+      <button id="newExam" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl p-3 hover:shadow-xl hover:from-blue-700">🔄 Nuevo examen</button>
     </div>
   </div>
 
   <script>
-    // 👉 Pega aquí tu URL de Apps Script desplegado (versión web)
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1KrW-k14q9SQn-QZYdd-V3U4OQ_pUqw7ZwTgCRAUm8umjBniNltTEm9S2Psb5lHE/exec";
-
     const QUESTIONS = [
       { q:"¿Cuál estación sigue después de la primavera?", options:["Verano","Invierno","Otoño"], answer:0 },
       { q:"¿En qué estación caen las hojas de los árboles?", options:["Invierno","Otoño","Verano"], answer:1 },
@@ -83,8 +92,8 @@
     const finalScore=document.getElementById("finalScore");
     const finalMessage=document.getElementById("finalMessage");
     const sendStatus=document.getElementById("sendStatus");
+    const progress=document.getElementById("progress");
 
-    // Paso 1: Bienvenida -> Material
     document.getElementById("startQuiz").addEventListener("click", ()=>{
       const name=document.getElementById("studentName").value.trim();
       const course=document.getElementById("studentCourse").value.trim();
@@ -94,7 +103,6 @@
       studyCard.classList.remove("hidden");
     });
 
-    // Paso 2: Material -> Examen
     document.getElementById("goToQuiz").addEventListener("click", ()=>{
       studyCard.classList.add("hidden");
       quizCard.classList.remove("hidden");
@@ -104,11 +112,12 @@
     function showQuestion(){
       const q=QUESTIONS[currentQ];
       questionTitle.textContent = (currentQ+1)+". "+q.q;
+      progress.textContent=`Pregunta ${currentQ+1}/${QUESTIONS.length}`;
       optionsDiv.innerHTML="";
       q.options.forEach((opt,idx)=>{
         const btn=document.createElement("button");
         btn.textContent=opt;
-        btn.className="w-full border rounded p-2 text-left hover:bg-blue-100";
+        btn.className="w-full border rounded-xl p-3 text-left hover:bg-blue-100";
         if(answers[currentQ]===idx){ btn.classList.add("bg-blue-200"); }
         btn.onclick=()=>{ answers[currentQ]=idx; showQuestion(); };
         optionsDiv.appendChild(btn);
@@ -130,16 +139,14 @@
       quizCard.classList.add("hidden");
       resultCard.classList.remove("hidden");
       finalScore.textContent=`Tu nota: ${score} / ${QUESTIONS.length}`;
-      finalMessage.textContent = score>=7? "¡Excelente!" : (score>=4? "Buen intento" : "Sigue practicando");
+      finalMessage.textContent = score>=7? "🌟 ¡Excelente!" : (score>=4? "💪 Buen intento" : "📖 Sigue practicando");
       sendStatus.textContent="Guardando registro...";
-    
       const formData=new FormData();
       formData.append("name", student.name);
       formData.append("course", student.course);
       formData.append("score", score);
       formData.append("total", QUESTIONS.length);
       formData.append("answers", JSON.stringify(answers));
-    
       try{
         const resp=await fetch(APPS_SCRIPT_URL, {method:"POST", body:formData});
         if(resp.ok){
@@ -153,7 +160,6 @@
       }
     });
 
-    // Botón para reiniciar
     document.getElementById("newExam").addEventListener("click", ()=>{
       window.location.reload();
     });
