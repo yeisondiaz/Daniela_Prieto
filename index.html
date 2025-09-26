@@ -1,398 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Las Estaciones - Aprendo y Evalúo (6°)</title>
-  <style>
-    :root{
-      --bg:#FFF8E7;
-      --card:#ffffff;
-      --accent1:#FF8A65;
-      --accent2:#4FC3F7;
-      --accent3:#81C784;
-      --text:#2E2E2E;
-      --muted:#666;
-      --radius:14px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body{background:linear-gradient(135deg,#FFF8E7,#E8F7FF); margin:0; color:var(--text);}
-    .container{max-width:980px;margin:28px auto;padding:20px;}
-    header{display:flex;align-items:center;gap:16px;}
-    .logo{width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
-    h1{margin:0;font-size:24px}
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 8px 30px rgba(34,34,34,0.08);padding:18px;margin-top:18px}
-    .row{display:flex;gap:16px;align-items:center}
-    .col{flex:1}
-    .study-section .season{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;margin-bottom:12px}
-    .season svg{width:96px;height:72px;border-radius:10px}
-    .btn{background:var(--accent1);color:white;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;box-shadow:0 6px 12px rgba(0,0,0,0.08)}
-    .btn.secondary{background:var(--accent2);color:#063045}
-    .btn.ghost{background:transparent;border:2px solid rgba(0,0,0,0.06);color:var(--text)}
-    .form-row{display:flex;gap:8px;margin-top:8px}
-    input[type=text], select{flex:1;padding:10px;border-radius:10px;border:1px solid #eee;outline:none}
-    .quiz-question{padding:12px;border-radius:10px;border:1px dashed #eee;margin-bottom:10px}
-    .option{display:block;padding:8px;border-radius:8px;margin:6px 0;border:1px solid transparent;cursor:pointer}
-    .option input{margin-right:8px}
-    .option:hover{background:#f8f8f8}
-    .progress{height:10px;background:#eee;border-radius:999px;overflow:hidden;margin-top:10px}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent3),var(--accent2))}
-    .result{font-size:18px;font-weight:700}
-    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
-    @media (max-width:720px){ .row{flex-direction:column} .season svg{width:80px;height:56px} }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Las Estaciones del Año!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">ST</div>
-      <div>
-        <h1>Las estaciones del año — Aprendo y evalúo</h1>
-        <div style="color:var(--muted)">Diseñado para estudiantes de 6° — Estudio → Evaluación → Registro en Google Sheets</div>
-      </div>
-    </header>
+<body class="bg-gradient-to-r from-blue-200 to-green-200 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Registro -->
-    <div class="card" id="registerCard">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><strong>Registro para la evaluación</strong><div style="color:var(--muted);font-size:13px">Ingresa nombre y curso para comenzar</div></div>
-        <div class="progress" style="width:260px"><div id="regProgress" class="progress-bar" style="width:0%"></div></div>
-      </div>
-
-      <div class="form-row" style="margin-top:12px">
-        <input id="studentName" type="text" placeholder="Nombre completo (ej. Juan Pérez)" />
-        <input id="studentCourse" type="text" placeholder="Curso (ej. 6°A)" />
-        <button id="startBtn" class="btn">Ingresar</button>
-      </div>
-      <div style="color:var(--muted);font-size:13px;margin-top:8px">Conéctate con tu nombre real para que el docente pueda reconocer el registro.</div>
+  <div class="w-full max-w-2xl">
+    <!-- Bienvenida -->
+    <div id="welcomeCard" class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <h1 class="text-2xl font-bold text-center text-blue-700">🌎 ¡Bienvenido al Quiz de las Estaciones!</h1>
+      <p class="text-gray-600 text-center">Ingresa tus datos para comenzar.</p>
+      <input id="studentName" type="text" placeholder="Tu nombre" class="w-full border rounded p-2">
+      <input id="studentCourse" type="text" placeholder="Tu curso" class="w-full border rounded p-2">
+      <button id="startQuiz" class="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700">Comenzar</button>
     </div>
 
-    <!-- Zona de estudio -->
-    <div class="card study-section" id="studyCard" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <strong>Zona de estudio</strong>
-        <div style="color:var(--muted);font-size:13px">Lee y observa las ilustraciones, luego realiza la evaluación.</div>
+    <!-- Preguntas -->
+    <div id="quizCard" class="hidden bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <h2 id="questionTitle" class="text-lg font-semibold text-gray-800"></h2>
+      <div id="options" class="space-y-2"></div>
+      <div class="flex justify-between">
+        <button id="prevBtn" class="bg-gray-400 text-white rounded p-2">Anterior</button>
+        <button id="nextBtn" class="bg-gray-600 text-white rounded p-2">Siguiente</button>
       </div>
-
-      <!-- Primavera -->
-      <div class="season" style="background:linear-gradient(135deg,#E8F5E9,#FFFFFF)">
-        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-          <rect width="200" height="120" rx="8" fill="white" />
-          <g transform="translate(12,12)">
-            <circle cx="40" cy="36" r="18" fill="#81C784"></circle>
-            <g transform="translate(76,6)"><circle cx="18" cy="18" r="18" fill="#FFCDD2"></circle></g>
-            <text x="10" y="100" font-size="12" fill="#333">Primavera: clima templado, flores y más lluvia ligera.</text>
-          </g>
-        </svg>
-        <div class="col">
-          <div style="font-weight:700">Primavera</div>
-          <div style="color:var(--muted);font-size:13px">La naturaleza despierta: aparecen flores, temperaturas más suaves y a veces lluvia. Los días se hacen más largos.</div>
-        </div>
-      </div>
-
-      <!-- Verano -->
-      <div class="season" style="background:linear-gradient(135deg,#FFF3E0,#FFFFFF)">
-        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-          <rect width="200" height="120" rx="8" fill="white" />
-          <g transform="translate(12,12)">
-            <circle cx="36" cy="28" r="20" fill="#FFD54F"></circle>
-            <rect x="80" y="20" width="42" height="24" rx="8" fill="#4FC3F7"></rect>
-            <text x="10" y="100" font-size="12" fill="#333">Verano: calor, días largos y actividades al aire libre.</text>
-          </g>
-        </svg>
-        <div class="col">
-          <div style="font-weight:700">Verano</div>
-          <div style="color:var(--muted);font-size:13px">Hace más calor y los días son muy largos. Es época de vacaciones y actividades fuera de casa.</div>
-        </div>
-      </div>
-
-      <!-- Otoño -->
-      <div class="season" style="background:linear-gradient(135deg,#FFF8E1,#FFFFFF)">
-        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-          <rect width="200" height="120" rx="8" fill="white" />
-          <g transform="translate(12,12)">
-            <path d="M20 80c10-30 50-28 60 0" fill="#FFAB91"></path>
-            <text x="10" y="100" font-size="12" fill="#333">Otoño: hojas que cambian de color y empiezan a caer.</text>
-          </g>
-        </svg>
-        <div class="col">
-          <div style="font-weight:700">Otoño</div>
-          <div style="color:var(--muted);font-size:13px">Las hojas cambian de color (amarillo, naranja, rojo) y caen. El clima se vuelve más fresco.</div>
-        </div>
-      </div>
-
-      <!-- Invierno -->
-      <div class="season" style="background:linear-gradient(135deg,#E3F2FD,#FFFFFF)">
-        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-          <rect width="200" height="120" rx="8" fill="white" />
-          <g transform="translate(12,12)">
-            <circle cx="28" cy="36" r="10" fill="#90CAF9"></circle>
-            <text x="10" y="100" font-size="12" fill="#333">Invierno: clima frío, posibles heladas o nieve en zonas altas.</text>
-          </g>
-        </svg>
-        <div class="col">
-          <div style="font-weight:700">Invierno</div>
-          <div style="color:var(--muted);font-size:13px">Es la estación más fría. Los días son más cortos y puede nevar en algunas regiones.</div>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:flex-end">
-        <button id="toQuizBtn" class="btn secondary">Ir a la evaluación →</button>
-      </div>
+      <button id="submitQuiz" class="hidden w-full bg-green-600 text-white rounded p-2 hover:bg-green-700">Enviar respuestas</button>
     </div>
 
-    <!-- Zona de evaluación -->
-    <div class="card" id="quizCard" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><strong>Evaluación (10 preguntas)</strong><div style="color:var(--muted);font-size:13px">Contesta con lo aprendido. Tu nota se enviará al docente.</div></div>
-        <div id="quizProgressText" style="color:var(--muted);font-size:13px">Pregunta <span id="currentQ">1</span> / 10</div>
-      </div>
-
-      <div id="questionsContainer" style="margin-top:12px"></div>
-
-      <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
-        <button id="prevQ" class="btn ghost">Anterior</button>
-        <button id="nextQ" class="btn ghost">Siguiente</button>
-        <div style="flex:1"></div>
-        <button id="submitQuiz" class="btn">Enviar evaluación</button>
-      </div>
-
-      <div style="margin-top:12px;display:flex;align-items:center;gap:12px">
-        <div class="progress" style="flex:1"><div id="quizProgress" class="progress-bar" style="width:0%"></div></div>
-        <div id="scorePreview" style="font-weight:700">—</div>
-      </div>
+    <!-- Resultados -->
+    <div id="resultCard" class="hidden bg-white rounded-2xl shadow-lg p-6 space-y-4 text-center">
+      <h2 class="text-xl font-bold text-gray-800">📊 Resultados</h2>
+      <p id="finalScore" class="text-lg"></p>
+      <p id="finalMessage" class="text-gray-700"></p>
+      <p id="sendStatus" class="text-sm text-gray-500"></p>
     </div>
-
-    <!-- Resultado -->
-    <div class="card" id="resultCard" style="display:none;text-align:center">
-      <div style="font-size:20px;font-weight:800" id="finalMessage">¡Buen trabajo!</div>
-      <div style="margin-top:10px" id="finalScore">Tu nota: 0 / 10</div>
-      <div style="color:var(--muted);font-size:13px;margin-top:8px" id="sendStatus">Guardando registro...</div>
-      <div style="margin-top:14px">
-        <button id="restartBtn" class="btn ghost">Hacer la evaluación otra vez</button>
-      </div>
-    </div>
-
-    <footer>Profesor: revisa la hoja para ver los registros. Esta aplicación puede conectarse a Google Sheets mediante Apps Script.</footer>
   </div>
 
-<script>
-/* CONFIGURACIÓN: pega aquí la URL pública de tu Apps Script desplegado.
-   Si usas el script que te doy abajo, pon la URL de despliegue (exec URL). */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8exUyaueBaDOT_9dsdXDnyKv_Jy7OiZBGbf1rozHA8QPX9PNynpm_FAQdkarMRW1d6A/exec';
+  <script>
+    // 👉 Pega aquí tu URL de Apps Script desplegado (versión web)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCew8qnlZfqaaoR568aL6gKC0FzWrvSumxWs6PZ2nTsuQ7dcTsEz5wfH-s7wfaYsihg/exec";
 
-/* PREGUNTAS (10). Asegúrate que las preguntas estén alineadas con la zona de estudio. */
-const QUESTIONS = [
-  {
-    q: "¿En qué estación suelen aparecer más flores?",
-    options: ["Invierno","Otoño","Primavera","Verano"],
-    answer: 2
-  },
-  {
-    q: "¿Qué estación suele tener días más largos y temperaturas altas?",
-    options: ["Invierno","Verano","Primavera","Otoño"],
-    answer: 1
-  },
-  {
-    q: "¿En cuál estación las hojas cambian de color y empiezan a caer?",
-    options: ["Primavera","Verano","Otoño","Invierno"],
-    answer: 2
-  },
-  {
-    q: "¿Cuál estación es la más fría, con días cortos?",
-    options: ["Verano","Invierno","Primavera","Otoño"],
-    answer: 1
-  },
-  {
-    q: "Si hay más lluvias y la naturaleza despierta, ¿qué estación es?",
-    options: ["Primavera","Invierno","Verano","Otoño"],
-    answer: 0
-  },
-  {
-    q: "En la escuela hacen actividades al aire libre por el calor. ¿Qué estación es más probable?",
-    options: ["Invierno","Otoño","Primavera","Verano"],
-    answer: 3
-  },
-  {
-    q: "Las heladas o la nieve suelen ocurrir en:",
-    options: ["Primavera","Verano","Invierno","Otoño"],
-    answer: 2
-  },
-  {
-    q: "¿Qué estación suele tener viento más fresco y menos hojas en los árboles?",
-    options: ["Primavera","Otoño","Verano","Invierno"],
-    answer: 1
-  },
-  {
-    q: "Cuando los días se alargan y hace más calor después del invierno, es:",
-    options: ["Primavera","Verano","Otoño","Invierno"],
-    answer: 0
-  },
-  {
-    q: "¿Cuál estación se asocia con vacaciones y actividades en la playa (en muchos lugares)?",
-    options: ["Invierno","Otoño","Primavera","Verano"],
-    answer: 3
-  }
-];
+    const QUESTIONS = [
+      { q:"¿Cuál estación sigue después de la primavera?", options:["Verano","Invierno","Otoño"], answer:0 },
+      { q:"¿En qué estación caen las hojas de los árboles?", options:["Invierno","Otoño","Verano"], answer:1 },
+      { q:"¿En qué estación hace más frío?", options:["Invierno","Primavera","Verano"], answer:0 },
+      { q:"¿En qué estación florecen las plantas?", options:["Primavera","Otoño","Verano"], answer:0 },
+      { q:"¿En qué estación se celebran las navidades?", options:["Primavera","Invierno","Verano"], answer:1 },
+      { q:"¿En qué estación usamos ropa ligera por el calor?", options:["Otoño","Primavera","Verano"], answer:2 },
+      { q:"¿Cuál estación se caracteriza por lluvias y flores?", options:["Primavera","Invierno","Otoño"], answer:0 },
+      { q:"¿Cuál estación es antes del invierno?", options:["Otoño","Verano","Primavera"], answer:0 },
+      { q:"¿En qué estación jugamos con nieve?", options:["Invierno","Primavera","Verano"], answer:0 },
+      { q:"¿Qué estación tiene días más largos y soleados?", options:["Verano","Invierno","Otoño"], answer:0 }
+    ];
 
-let student = {name:'', course:''};
-let answers = new Array(QUESTIONS.length).fill(null);
-let currentIndex = 0;
+    let currentQ = 0;
+    let answers = Array(QUESTIONS.length).fill(null);
+    let student = {name:"", course:""};
 
-/* ELEMENTOS */
-const regName = document.getElementById('studentName');
-const regCourse = document.getElementById('studentCourse');
-const startBtn = document.getElementById('startBtn');
-const registerCard = document.getElementById('registerCard');
-const studyCard = document.getElementById('studyCard');
-const toQuizBtn = document.getElementById('toQuizBtn');
-const quizCard = document.getElementById('quizCard');
-const questionsContainer = document.getElementById('questionsContainer');
-const currentQlabel = document.getElementById('currentQ');
-const quizProgressBar = document.getElementById('quizProgress');
-const quizProgressText = document.getElementById('quizProgressText');
-const scorePreview = document.getElementById('scorePreview');
-const prevQ = document.getElementById('prevQ');
-const nextQ = document.getElementById('nextQ');
-const submitQuiz = document.getElementById('submitQuiz');
-const resultCard = document.getElementById('resultCard');
-const finalMessage = document.getElementById('finalMessage');
-const finalScore = document.getElementById('finalScore');
-const sendStatus = document.getElementById('sendStatus');
-const restartBtn = document.getElementById('restartBtn');
-const regProgress = document.getElementById('regProgress');
+    const welcomeCard=document.getElementById("welcomeCard");
+    const quizCard=document.getElementById("quizCard");
+    const resultCard=document.getElementById("resultCard");
+    const questionTitle=document.getElementById("questionTitle");
+    const optionsDiv=document.getElementById("options");
+    const prevBtn=document.getElementById("prevBtn");
+    const nextBtn=document.getElementById("nextBtn");
+    const submitQuiz=document.getElementById("submitQuiz");
+    const finalScore=document.getElementById("finalScore");
+    const finalMessage=document.getElementById("finalMessage");
+    const sendStatus=document.getElementById("sendStatus");
 
-/* UI handlers */
-startBtn.addEventListener('click', () => {
-  const name = regName.value.trim();
-  const course = regCourse.value.trim();
-  if(!name || !course){ alert('Por favor ingresa nombre y curso.'); return; }
-  student.name = name; student.course = course;
-  registerCard.style.display='none';
-  studyCard.style.display='block';
-  regProgress.style.width = '50%';
-});
-
-toQuizBtn.addEventListener('click', () => {
-  studyCard.style.display='none';
-  quizCard.style.display='block';
-  regProgress.style.width = '80%';
-  renderQuestion();
-});
-
-function renderQuestion(){
-  const q = QUESTIONS[currentIndex];
-  currentQlabel.textContent = (currentIndex+1);
-  questionsContainer.innerHTML = '';
-  const qDiv = document.createElement('div');
-  qDiv.className = 'quiz-question';
-  qDiv.innerHTML = `<div style="font-weight:700">${currentIndex+1}. ${q.q}</div>`;
-  q.options.forEach((opt, idx) => {
-    const id = `opt-${currentIndex}-${idx}`;
-    const wrapper = document.createElement('label');
-    wrapper.className = 'option';
-    wrapper.innerHTML = `<input type="radio" name="q${currentIndex}" value="${idx}" id="${id}"> ${opt}`;
-    // restore selection
-    if(answers[currentIndex] === idx) wrapper.querySelector('input').checked = true;
-    wrapper.querySelector('input').addEventListener('change', (e) => {
-      answers[currentIndex] = parseInt(e.target.value, 10);
-      updateProgressPreview();
+    document.getElementById("startQuiz").addEventListener("click", ()=>{
+      const name=document.getElementById("studentName").value.trim();
+      const course=document.getElementById("studentCourse").value.trim();
+      if(!name || !course){ alert("Por favor ingresa tu nombre y curso"); return; }
+      student.name=name; student.course=course;
+      welcomeCard.classList.add("hidden");
+      quizCard.classList.remove("hidden");
+      showQuestion();
     });
-    qDiv.appendChild(wrapper);
-  });
-  questionsContainer.appendChild(qDiv);
-  updateNav();
-  updateProgressPreview();
-}
 
-function updateNav(){
-  prevQ.disabled = (currentIndex===0);
-  nextQ.disabled = (currentIndex===QUESTIONS.length-1);
-  quizProgressBar.style.width = `${Math.round((currentIndex+1)/QUESTIONS.length*100)}%`;
-  document.getElementById('currentQ').textContent = (currentIndex+1);
-}
-
-prevQ.addEventListener('click', ()=>{ if(currentIndex>0){ currentIndex--; renderQuestion(); }});
-nextQ.addEventListener('click', ()=>{ if(currentIndex<QUESTIONS.length-1){ currentIndex++; renderQuestion(); }});
-
-function computeScore(){
-  let score = 0;
-  for(let i=0;i<QUESTIONS.length;i++){
-    if(answers[i] === QUESTIONS[i].answer) score++;
-  }
-  return score;
-}
-
-function updateProgressPreview(){
-  const answered = answers.filter(a => a !== null).length;
-  const percent = Math.round(answered/QUESTIONS.length*100);
-  scorePreview.textContent = `${answered}/10 contestadas`;
-  document.getElementById('quizProgress').style.width = `${Math.round(answered/QUESTIONS.length*100)}%`;
-}
-
-submitQuiz.addEventListener('click', async () => {
-  // asegurar que nombre y curso siguen presentes
-  if(!student.name || !student.course){ alert('Falta registro de nombre/curso. Reinicia sesión.'); return; }
-  // opcional: confirmar que todas están contestadas
-  const answered = answers.filter(a=>a!==null).length;
-  if(answered < QUESTIONS.length){
-    if(!confirm(`Solo has contestado ${answered} preguntas de 10. ¿Deseas enviar así?`)) return;
-  }
-
-  const score = computeScore();
-  quizCard.style.display='none';
-  resultCard.style.display='block';
-  finalScore.textContent = `Tu nota: ${score} / ${QUESTIONS.length}`;
-  finalMessage.textContent = score >= 7 ? '¡Excelente!' : (score >=4 ? 'Buen intento' : 'Sigue practicando');
-  sendStatus.textContent = 'Guardando registro...';
-
-  // preparar payload
-  const payload = {
-    timestamp: (new Date()).toISOString(),
-    name: student.name,
-    course: student.course,
-    score: score,
-    total: QUESTIONS.length,
-    answers: answers,
-    questions: QUESTIONS.map(q=>q.q)
-  };
-
-  try{
-    const resp = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    // intentamos leer respuesta JSON; si hay problema de CORS o "no-cors", esto puede fallar
-    if(resp.ok){
-      const data = await resp.json();
-      sendStatus.textContent = 'Registro guardado correctamente.';
-    } else {
-      sendStatus.textContent = 'El servidor devolvió un error al guardar. Revisa el Apps Script.';
+    function showQuestion(){
+      const q=QUESTIONS[currentQ];
+      questionTitle.textContent = (currentQ+1)+". "+q.q;
+      optionsDiv.innerHTML="";
+      q.options.forEach((opt,idx)=>{
+        const btn=document.createElement("button");
+        btn.textContent=opt;
+        btn.className="w-full border rounded p-2 text-left hover:bg-blue-100";
+        if(answers[currentQ]===idx){ btn.classList.add("bg-blue-200"); }
+        btn.onclick=()=>{ answers[currentQ]=idx; showQuestion(); };
+        optionsDiv.appendChild(btn);
+      });
+      prevBtn.disabled=(currentQ===0);
+      nextBtn.style.display=(currentQ===QUESTIONS.length-1)?"none":"block";
+      submitQuiz.classList.toggle("hidden", currentQ!==QUESTIONS.length-1);
     }
-  } catch (err){
-    // Error de red o CORS
-    sendStatus.innerHTML = 'No se pudo enviar (error de red o CORS).<br>Revisa que el Apps Script esté desplegado como "Anyone, even anonymous" y que la URL sea la correcta.';
-    console.error(err);
-  }
-});
 
-/* reiniciar para nuevo intento */
-restartBtn.addEventListener('click', () => {
-  answers = new Array(QUESTIONS.length).fill(null);
-  currentIndex = 0;
-  student = {name:'', course:''};
-  regName.value=''; regCourse.value='';
-  resultCard.style.display='none';
-  registerCard.style.display='block';
-  studyCard.style.display='none';
-  quizCard.style.display='none';
-  regProgress.style.width='0%';
-  scorePreview.textContent = '—';
-});
+    prevBtn.addEventListener("click", ()=>{ if(currentQ>0){ currentQ--; showQuestion(); } });
+    nextBtn.addEventListener("click", ()=>{ if(currentQ<QUESTIONS.length-1){ currentQ++; showQuestion(); } });
 
-/* inicialización: pintar primera pregunta cuando se llegue al quiz */
-renderQuestion();
-</script>
+    function computeScore(){
+      return answers.reduce((acc,a,idx)=> a===QUESTIONS[idx].answer?acc+1:acc,0);
+    }
+
+    submitQuiz.addEventListener("click", async ()=>{
+      if(!student.name || !student.course){ alert("Falta registro de nombre/curso"); return; }
+      const answered=answers.filter(a=>a!==null).length;
+      if(answered<QUESTIONS.length){
+        if(!confirm(`Solo has contestado ${answered} de ${QUESTIONS.length}. ¿Enviar igualmente?`)) return;
+      }
+
+      const score=computeScore();
+      quizCard.classList.add("hidden");
+      resultCard.classList.remove("hidden");
+      finalScore.textContent=`Tu nota: ${score} / ${QUESTIONS.length}`;
+      finalMessage.textContent = score>=7? "¡Excelente!" : (score>=4? "Buen intento" : "Sigue practicando");
+      sendStatus.textContent="Guardando registro...";
+
+      const formData=new FormData();
+      formData.append("nombre", student.name);
+      formData.append("curso", student.course);
+      formData.append("nota", `${score}/${QUESTIONS.length}`);
+      formData.append("respuestas", JSON.stringify(answers));
+
+      try{
+        const resp=await fetch(APPS_SCRIPT_URL, {method:"POST", body:formData});
+        if(resp.ok){
+          sendStatus.textContent="Registro guardado correctamente ✅";
+        } else {
+          sendStatus.textContent="Error al guardar en el servidor ❌";
+        }
+      }catch(err){
+        sendStatus.innerHTML="No se pudo enviar (CORS o red).<br>Revisa que el Apps Script esté desplegado como 'Anyone, even anonymous' y la URL sea la correcta.";
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>
